@@ -3,7 +3,7 @@ import player_pb2
 
 class Network:
     def __init__(self):
-        self.server_address = ("192.168.186.58", 5555)
+        self.server_address = ("127.0.0.1", 5555)
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
     def send_player_info(self, player_id, player_name, position_x, position_y):

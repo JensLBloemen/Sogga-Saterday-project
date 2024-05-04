@@ -50,7 +50,7 @@ def main():
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
     # Bind the socket to the address and port
-    server_address = ("192.168.186.58", 5555)
+    server_address = ("127.0.0.1", 5555)
     print('Starting up on {} port {}'.format(*server_address))
     server_socket.bind(server_address)
 
