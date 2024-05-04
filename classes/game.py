@@ -3,7 +3,7 @@
 # ----------------------------------------------------------------------------#
 
 from classes.world import World
-
+from classes.Arrow import Arrow
 import numpy as np
 import pygame
 pygame.init()
@@ -79,9 +79,18 @@ class Game:
             # Quit and close game by pressing the X right above..
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-
                     self.quit()
                     break
+
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    print("Mouse clicked")
+                    x, y = pygame.mouse.get_pos()
+                    direction = display_centre - np.array([x, y])
+                    direction = direction / np.linalg.norm(direction)
+
+                    arrow = Arrow(display_centre[0], display_centre[1], direction)
+
+                    print(f"pos = {pygame.mouse.get_pos()}")
 
             # Recieve arrow input controlls and call player to move.
             keys = pygame.key.get_pressed()

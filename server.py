@@ -8,12 +8,10 @@ def main():
 
     clients = set()  # Keep track of client addresses
 
-    print("Server is running and listening for clients...")
     
     try:
         while True:
             data, address = sock.recvfrom(4096)
-            print(f"Received data from {address}")
 
             if address not in clients:
                 clients.add(address)  # Add new client to the set
@@ -21,7 +19,6 @@ def main():
             for client in clients:
                 if client != address:  # Forward message to other clients
                     sock.sendto(data, client)
-                    print(f"Forwarded message to {client}")
                     
     finally:
         sock.close()

@@ -27,6 +27,8 @@ class World:
         self.other_players = {}
         self.fixtures = [] # this stays 1 list with diff types of fixtures.
 
+        self.arrow = []
+
         # Add fixtures.
         self.add_fixture(300, 0, 50, 50)
         self.add_fixture(-300, 0, 50, 50)
@@ -43,7 +45,6 @@ class World:
                 print(f"New player added!: {player.id}")
                 
             self.other_players[player.id] = Player(player.position.x, player.position.y)
-            print(f"Received message: ID={player.id}, Name={player.name}, Position=({player.position.x}, {player.position.y})")
 
 
     def add_player(self, x : int, y : int) -> Player:
@@ -56,6 +57,9 @@ class World:
     def add_fixture(self, x : int, y : int, width : int, height : int) -> None:
         self.fixtures.append(Fixture(x, y, width, height))
 
+    def add_arrow(self, arrow):
+        self.arrow = arrow
+
     def move_player(self, vel):
         self.player.move(vel)
         # Check you out of world
@@ -66,19 +70,16 @@ class World:
     def update(self) -> None:
         """ Update world. """
 
-        print("Updating world...")
         player = pb_Player()
         player.id = self.player_id
         player.name = f"Player {self.player_id}"
         player.position.x = self.player.pos[0]
         player.position.y = self.player.pos[1]
 
+        player.arrow.position.x = self.arrow.pos[0]
+        player.arrow.position.y = self.arrow.pos[1]
+
         data = player.SerializeToString()
         self.sock.sendto(data, self.server_address)
 
-
-    def kill(self):
-        """ Kill the world. """
-        self.sock.close()
-        quit()
 

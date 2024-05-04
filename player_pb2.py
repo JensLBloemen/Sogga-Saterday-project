@@ -13,7 +13,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0cplayer.proto\"?\n\x06Player\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x1b\n\x08position\x18\x03 \x01(\x0b\x32\t.Position\" \n\x08Position\x12\t\n\x01x\x18\x01 \x01(\x05\x12\t\n\x01y\x18\x02 \x01(\x05\"#\n\x07Players\x12\x18\n\x07players\x18\x01 \x03(\x0b\x32\x07.Playerb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0cplayer.proto\"X\n\x06Player\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x1b\n\x08position\x18\x03 \x01(\x0b\x32\t.Position\x12\x17\n\x06\x61rrows\x18\x04 \x01(\x0b\x32\x07.Arrows\" \n\x08Position\x12\t\n\x01x\x18\x01 \x01(\x05\x12\t\n\x01y\x18\x02 \x01(\x05\"!\n\tDirection\x12\t\n\x01x\x18\x01 \x01(\x02\x12\t\n\x01y\x18\x02 \x01(\x02\"#\n\x07Players\x12\x18\n\x07players\x18\x01 \x03(\x0b\x32\x07.Player\"C\n\x05\x41rrow\x12\x1b\n\x08position\x18\x01 \x01(\x0b\x32\t.Position\x12\x1d\n\tdirection\x18\x02 \x01(\x0b\x32\n.Direction\" \n\x06\x41rrows\x12\x16\n\x06\x61rrows\x18\x01 \x03(\x0b\x32\x06.Arrowb\x06proto3')
 
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'player_pb2', globals())
@@ -21,9 +21,15 @@ if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
   _PLAYER._serialized_start=16
-  _PLAYER._serialized_end=79
-  _POSITION._serialized_start=81
-  _POSITION._serialized_end=113
-  _PLAYERS._serialized_start=115
-  _PLAYERS._serialized_end=150
+  _PLAYER._serialized_end=104
+  _POSITION._serialized_start=106
+  _POSITION._serialized_end=138
+  _DIRECTION._serialized_start=140
+  _DIRECTION._serialized_end=173
+  _PLAYERS._serialized_start=175
+  _PLAYERS._serialized_end=210
+  _ARROW._serialized_start=212
+  _ARROW._serialized_end=279
+  _ARROWS._serialized_start=281
+  _ARROWS._serialized_end=313
 # @@protoc_insertion_point(module_scope)
