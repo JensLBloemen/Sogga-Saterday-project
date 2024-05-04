@@ -17,7 +17,7 @@ BLUE =          (0,     0,      255)
 # --- Settings ----------------------------------------------------------------
 
 GAME_NAME = 'Game'
-FPS = 64
+FPS = 10
 WINDOW_WIDTH = 1700
 WINDOW_HEIGHT = 900
 
@@ -45,8 +45,12 @@ class Game:
     def draw(self) -> None:
 
         # Draw Player object in centre of frame.
-        pos = display_centre - self.player.radius
+        pos = display_centre
         pygame.draw.circle(self.game_display, RED, (pos[0], pos[1]), self.player.radius)
+
+        for id, player in self.world.other_players.items():
+            relative_pos = player.pos - self.player.pos + display_centre
+            pygame.draw.circle(self.game_display, BLUE, (relative_pos[0], relative_pos[1]), player.radius)
 
         # Draw fixtures.
         for fixture in self.world.fixtures:
@@ -55,10 +59,11 @@ class Game:
                          fixture.width, fixture.height)
             pygame.draw.rect(self.game_display, BLUE, fixt_rect)
 
-    def refresh_display(self) -> None:
+    def update(self) -> None:
         """ Draw new frame. """
         self.game_display.fill(BACKGROUND_COLOR)
         self.draw()
+        self.world.update()
         pygame.display.update()
         clock.tick(FPS)
         
@@ -74,6 +79,7 @@ class Game:
             # Quit and close game by pressing the X right above..
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
+
                     self.quit()
                     break
 
@@ -83,7 +89,7 @@ class Game:
             y_vel = int(keys[pygame.K_s]) - int(keys[pygame.K_w])
             self.world.move_player(np.array([x_vel, y_vel]))
 
-            self.refresh_display()
+            self.update()
 
 
         
