@@ -23,10 +23,10 @@ def send_messages(sock, server_address):
         sock.sendto(data, server_address)
 
 
-        # input("Press enter to send the next message...")
+        input("Press enter to send the next message...")
 
 def main():
-    server_address = ("127.0.0.1", 10000)
+    server_address = ("192.168.8.115", 5555)
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
     receiver_thread = threading.Thread(target=listen_for_messages, args=(sock,))

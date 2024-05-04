@@ -2,7 +2,6 @@
 # Front end game loop, drawing objects and recieving player inputs.           #
 # ----------------------------------------------------------------------------#
 
-from classes.player import Player
 from classes.world import World
 
 import numpy as np
@@ -47,9 +46,7 @@ class Game:
 
         # Draw Player object in centre of frame.
         pos = display_centre - self.player.radius
-        player_rect = (pos[0], pos[1], 
-                       2 * self.player.radius, 2 * self.player.radius)
-        pygame.draw.rect(self.game_display, RED, player_rect)
+        pygame.draw.circle(self.game_display, RED, (pos[0], pos[1]), self.player.radius)
 
         # Draw fixtures.
         for fixture in self.world.fixtures:
@@ -84,7 +81,7 @@ class Game:
             keys = pygame.key.get_pressed()
             x_vel = int(keys[pygame.K_d]) - int(keys[pygame.K_a])
             y_vel = int(keys[pygame.K_s]) - int(keys[pygame.K_w])
-            self.player.move(np.array([x_vel, y_vel]))
+            self.world.move_player(np.array([x_vel, y_vel]))
 
             self.refresh_display()
 
