@@ -1,4 +1,4 @@
-from lib.classes.Sogga import Sogga
+from classes.Sogga import Sogga
 import random
 import pygame
 # Initialize Pygame
@@ -7,7 +7,7 @@ pygame.init()
 # Set up the display
 screen = pygame.display.set_mode((800, 600))
 
-sogga_img = pygame.image.load("lib/assets/sogga.png")
+sogga_img = pygame.image.load("assets/sogga.png")
 
 
 sogga = Sogga("Sogga", [0, 0])
