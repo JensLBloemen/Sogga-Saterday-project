@@ -69,10 +69,41 @@ class World:
 
     def move_player(self, vel):
         self.player.move(vel)
-        # Check you out of world
-        # Check of collision with fixture
-        # Check for collision 
-    
+
+        # Correct out of world. Could be deleted if world is surounded by fixtures.
+        if self.player.pos[0] < 0: self.player.pos[0] = 0
+        if self.player.pos[1] < 0: self.player.pos[1] = 0
+        if self.player.pos[0] > self.width: self.player.pos[0] = self.width
+        if self.player.pos[1] > self.height: self.player.pos[0] = self.height
+
+        # Check of collision with fixtures.
+        player_lowx = self.player.pos[0] - self.player.radius
+        player_lowy = self.player.pos[1] - self.player.radius
+        player_highx = self.player.pos[0] + self.player.radius
+        player_highy = self.player.pos[1] + self.player.radius
+        for fixture in self.fixtures:
+            fix_lowx = fixture.pos[0]
+            fix_lowy = fixture.pos[1]
+            fix_highx = fixture.pos[0] + fixture.width
+            fix_highy = fixture.pos[1] + fixture.height
+
+            left_col = player_lowx < fix_lowx and fix_lowx < player_highx
+            right_col = fix_lowx < player_lowx and player_lowx < fix_highx
+            up_col = player_lowy < fix_lowy and fix_lowy < player_highy
+            down_col = fix_lowy < player_lowy and player_lowy < fix_highy
+
+            if (left_col or right_col) and (up_col or down_col):
+                x_shift = (player_highx - fix_lowx) * left_col + \
+                            (fix_highx - player_lowx) * right_col
+                y_shift = (player_highy - fix_lowy) * up_col + \
+                            (fix_highy - player_lowy) * down_col
+
+                self.player.pos += np.array([x_shift, y_shift])
+                
+            
+
+                # Check for collision with arrows.
+                # Check for collision with players.
 
     def update(self) -> None:
         """ Update world. """
