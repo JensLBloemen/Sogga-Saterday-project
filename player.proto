@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+message Player {
+  int32 id = 1;
+  string name = 2;
+  Position position = 3;
+}
+
+message Position {
+  int32 x = 1;
+  int32 y = 2;
+}
+
+message Players {
+  repeated Player players = 1;
+}
