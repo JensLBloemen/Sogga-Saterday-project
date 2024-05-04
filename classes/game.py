@@ -17,7 +17,7 @@ BLUE =          (0,     0,      255)
 # --- Settings ----------------------------------------------------------------
 
 GAME_NAME = 'Game'
-FPS = 10
+FPS = 60
 WINDOW_WIDTH = 1700
 WINDOW_HEIGHT = 900
 
