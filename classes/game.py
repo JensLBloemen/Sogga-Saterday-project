@@ -2,8 +2,8 @@
 # Front end game loop, drawing objects and recieving player inputs.           #
 # ----------------------------------------------------------------------------#
 
-from player import Player
-from world import World
+from classes.player import Player
+from classes.world import World
 
 import numpy as np
 import pygame
@@ -26,7 +26,6 @@ BACKGROUND_COLOR = BLACK
 
 # --- Setup display -----------------------------------------------------------
 
-game_display = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 display_centre = np.array([WINDOW_WIDTH/2, WINDOW_HEIGHT/2])
 pygame.display.set_caption(GAME_NAME)
 clock = pygame.time.Clock()
@@ -50,24 +49,27 @@ class Game:
         pos = display_centre - self.player.radius
         player_rect = (pos[0], pos[1], 
                        2 * self.player.radius, 2 * self.player.radius)
-        pygame.draw.rect(game_display, RED, player_rect)
+        pygame.draw.rect(self.game_display, RED, player_rect)
 
         # Draw fixtures.
         for fixture in self.world.fixtures:
             relative_pos = fixture.pos - self.player.pos + display_centre
             fixt_rect = (relative_pos[0], relative_pos[1], 
                          fixture.width, fixture.height)
-            pygame.draw.rect(game_display, BLUE, fixt_rect)
+            pygame.draw.rect(self.game_display, BLUE, fixt_rect)
 
     def refresh_display(self) -> None:
         """ Draw new frame. """
-        game_display.fill(BACKGROUND_COLOR)
+        self.game_display.fill(BACKGROUND_COLOR)
         self.draw()
         pygame.display.update()
         clock.tick(FPS)
         
     def run(self) -> None:
         """ Main gameplay loop. """
+    
+            # Set up display
+        self.game_display = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 
         # Loop
         while True:
@@ -86,6 +88,5 @@ class Game:
 
             self.refresh_display()
 
-Game().run()
 
         

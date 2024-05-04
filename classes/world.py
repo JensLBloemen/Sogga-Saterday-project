@@ -1,5 +1,5 @@
-from player import Player
-from fixture import *
+from classes.player import Player
+from classes.fixture import *
 
 # Wereld gaat conact hebben met server. Stuurt player info en krijgt other player info
 
