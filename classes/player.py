@@ -9,3 +9,4 @@ class Player:
 
     def move(self, direction : np.array) -> None:
         self.pos += direction * self.speed
+

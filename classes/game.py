@@ -68,7 +68,7 @@ class Game:
     def run(self) -> None:
         """ Main gameplay loop. """
     
-            # Set up display
+        # Set up display
         self.game_display = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 
         # Loop

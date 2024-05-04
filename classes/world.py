@@ -1,5 +1,5 @@
 from classes.player import Player
-from classes.fixture import *
+from classes.fixture import Fixture
 
 # Wereld gaat conact hebben met server. Stuurt player info en krijgt other player info
 
@@ -16,7 +16,7 @@ class World:
         self.add_fixture(0, 300, 50, 50)
         self.add_fixture(0, -300, 50, 50)
 
-        
+
     def add_player(self, x, y) -> Player:
         """ Add a player to the game and return the player to creator. """
         new_player = Player(x, y)
@@ -26,3 +26,4 @@ class World:
     # Replace later for different specific types of fixtures
     def add_fixture(self, x, y, width, height) -> None:
         self.fixtures.append(Fixture(x, y, width, height))
+
