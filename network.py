@@ -22,24 +22,27 @@ class Network:
         print('Player info sent to server')
 
     def receive_player_info(self):
+
+        
+        print('zabloing')
         # Receive player information from the server
         data, _ = self.server_socket.recvfrom(4096)
-
+        print("zabloing2")
         # Parse the received protobuf message
         players_message = player_pb2.Players()
         players_message.ParseFromString(data)
 
         # Print received player information
+        print("#", players_message)
         for player in players_message.players:
             print(f"Received Player Info: ID={player.id}, Name={player.name}, Position=({player.position.x}, {player.position.y})")
-
 
 def main():
     """Test server connection."""
 
     network = Network()
     # Example usage: send player information to the server
-    network.send_player_info(1, "Player 1", 10, 20)
+    network.send_player_info(2, "Player 2", 20, 30)
 
     # Example usage: receive player information from the server
     network.receive_player_info()

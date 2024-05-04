@@ -10,13 +10,14 @@ def receive_player_info(server_socket, players, client_address):
     player = player_pb2.Player()
     player.ParseFromString(data)
 
-    # Save player information
-    players[player.id] = {'name': player.name, 'position': (player.position.x, player.position.y)}
+    # # Save player information
+    # players[player.id] = {'name': player.name, 'position': (player.position.x, player.position.y)}
 
     # Broadcast player information to all connected clients
-    for addr, client_info in players.items():
-        if addr != client_address:
-            send_player_info(server_socket, player, client_info, addr)
+    # for addr, client_info in players.items():
+    #     if addr != client_address:
+    #         send_player_info(server_socket, player, client_info, addr)
+    send_player_info(server_socket, player, client_address)
 
 def send_player_info(server_socket, new_player, client_info, client_address):
     # Create a Player message for the new player
