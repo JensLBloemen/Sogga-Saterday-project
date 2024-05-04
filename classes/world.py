@@ -1,11 +1,16 @@
 from classes.player import Player
 from classes.fixture import Fixture
+from classes.Arrow import Arrow
 
 
 import socket
 import threading
 import random
+import numpy as np
+
 from player_pb2 import Player as pb_Player  # Import your generated protobuf classes
+from player_pb2 import Arrow as pb_Arrow  # Import your generated protobuf classes
+from player_pb2 import Arrows as pb_Arrows  # Import your generated protobuf classes
 
 # Wereld gaat conact hebben met server. Stuurt player info en krijgt other player info
 
@@ -27,7 +32,7 @@ class World:
         self.other_players = {}
         self.fixtures = [] # this stays 1 list with diff types of fixtures.
 
-        self.arrow = []
+        self.arrows = []
 
         # Add fixtures.
         self.add_fixture(300, 0, 50, 50)
@@ -44,7 +49,9 @@ class World:
             if player.id not in self.other_players:
                 print(f"New player added!: {player.id}")
                 
-            self.other_players[player.id] = Player(player.position.x, player.position.y)
+            other_player = Player(player.position.x, player.position.y)
+            other_player.arrows = [Arrow(arr.position.x, arr.position.y, arr.direction.x, arr.direction.y) for arr in player.arrows.arrows]
+            self.other_players[player.id] = other_player
 
 
     def add_player(self, x : int, y : int) -> Player:
@@ -58,7 +65,7 @@ class World:
         self.fixtures.append(Fixture(x, y, width, height))
 
     def add_arrow(self, arrow):
-        self.arrow = arrow
+        self.arrows.append(arrow)
 
     def move_player(self, vel):
         self.player.move(vel)
@@ -76,8 +83,19 @@ class World:
         player.position.x = self.player.pos[0]
         player.position.y = self.player.pos[1]
 
-        player.arrow.position.x = self.arrow.pos[0]
-        player.arrow.position.y = self.arrow.pos[1]
+
+        arrows = pb_Arrows()
+        for selfarrow in self.arrows:
+            arrow = pb_Arrow()
+            arrow.position.x = int(selfarrow.pos[0])
+            arrow.position.y = int(selfarrow.pos[1])
+            arrow.direction.x = selfarrow.direction[0]
+            arrow.direction.y = selfarrow.direction[1]
+            arrows.arrows.append(arrow)
+
+        player.arrows.CopyFrom(arrows)
+
+
 
         data = player.SerializeToString()
         self.sock.sendto(data, self.server_address)

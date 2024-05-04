@@ -13,6 +13,7 @@ pygame.init()
 BLACK =         (0,     0,      0)
 RED =           (255,   0,      0)
 BLUE =          (0,     0,      255)
+WHITE =         (255,   255,    255)
 
 # --- Settings ----------------------------------------------------------------
 
@@ -48,9 +49,16 @@ class Game:
         pos = display_centre
         pygame.draw.circle(self.game_display, RED, (pos[0], pos[1]), self.player.radius)
 
+        for arrow in self.world.arrows:
+            pygame.draw.line(self.game_display, RED, (pos[0], pos[1]), (pos[0] + arrow.direction[0] * 100, pos[1] + arrow.direction[1]*100))
+
         for id, player in self.world.other_players.items():
             relative_pos = player.pos - self.player.pos + display_centre
             pygame.draw.circle(self.game_display, BLUE, (relative_pos[0], relative_pos[1]), player.radius)
+            for arrow in player.arrows:
+                relative_pos = arrow.pos - self.player.pos + display_centre
+                pygame.draw.line(self.game_display, WHITE, (relative_pos[0], relative_pos[1]), 
+                                 (relative_pos[0] + arrow.direction[0], relative_pos[1] + arrow.direction[1]))
 
         # Draw fixtures.
         for fixture in self.world.fixtures:
@@ -85,10 +93,11 @@ class Game:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     print("Mouse clicked")
                     x, y = pygame.mouse.get_pos()
-                    direction = display_centre - np.array([x, y])
+                    direction = np.array([x, y]) - display_centre
                     direction = direction / np.linalg.norm(direction)
 
                     arrow = Arrow(display_centre[0], display_centre[1], direction)
+                    self.world.add_arrow(arrow)
 
                     print(f"pos = {pygame.mouse.get_pos()}")
 
