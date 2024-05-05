@@ -7,6 +7,7 @@ from classes.Arrow import Arrow
 from classes.animation import Animation
 import numpy as np
 import math
+from copy import deepcopy
 
 import os
 
@@ -126,6 +127,10 @@ class Game:
                 if event.type == pygame.QUIT:
                     self.quit()
                     break
+
+                # Draw arrow, last update time.
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    self.shoot_anim.last_update = time
 
                 # Shoot arrow.
                 if event.type == pygame.MOUSEBUTTONUP:
