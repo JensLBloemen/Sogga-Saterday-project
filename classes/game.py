@@ -36,7 +36,7 @@ class Game:
 
     def __init__(self) -> None:
         self.world = World()
-        self.player = self.world.add_player(0, 0)
+        self.player = self.world.add_player(200, 200)
 
     def quit(self) -> None:
         """ Quit Game. """

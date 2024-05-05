@@ -35,10 +35,8 @@ class World:
         self.arrows = []
 
         # Add fixtures.
-        self.add_fixture(300, 0, 50, 50)
-        self.add_fixture(-300, 0, 50, 50)
-        self.add_fixture(0, 300, 50, 50)
-        self.add_fixture(0, -300, 50, 50)
+        self.add_fixture(0, 0, 50, 500)
+        self.add_fixture(1000, 0, 50, 500)
 
 
     def listen_for_messages(self, sock):
@@ -102,6 +100,9 @@ class World:
                 #             (fix_highy - player_lowy) * down_col
                             
                 # self.player.pos += np.array([x_shift * abs(vel[0]), y_shift * abs(vel[1])])
+
+        # Check for collision with arrows.
+        # Check for collision with players.
 
     def update(self) -> None:
         """ Update world. """

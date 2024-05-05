@@ -2,7 +2,7 @@ import numpy as np
 
 class Player:
 
-    def _init_(self, x, y) -> None:
+    def __init__(self, x, y) -> None:
         self.pos = np.array([x, y])
         self.speed = 5
         self.radius = 30
