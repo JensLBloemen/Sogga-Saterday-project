@@ -14,6 +14,7 @@ def main():
             data, address = sock.recvfrom(4096)
 
             if address not in clients:
+                print(f"New client: {address}")
                 clients.add(address)  # Add new client to the set
 
             for client in clients:
