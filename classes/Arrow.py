@@ -8,7 +8,7 @@ class Arrow:
         self.original_pos = self.pos.copy()
         self.direction = np.array(direction)
         self.speed = speed
-        self.range = 160
+        self.range = 400
 
         self.update_counter = 0
         self.life = 80
