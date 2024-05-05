@@ -47,15 +47,21 @@ class Game:
 
         # Draw Player object in centre of frame.
         pygame.draw.circle(self.game_display, RED, (display_centre[0], display_centre[1]), self.player.radius)
-
+        
+        # Draw arrows.
         for arrow in self.world.arrows:
             relative_pos = arrow.pos - self.player.pos + display_centre
             pygame.draw.line(self.game_display, RED, (relative_pos[0], relative_pos[1]),
-                             (relative_pos[0] + arrow.direction[0] * 100, relative_pos[1] + arrow.direction[1]*100))
+                             (relative_pos[0] - arrow.direction[0] * arrow.length, relative_pos[1] - arrow.direction[1]*arrow.length))
+
+        # Draw other players and arrows.
 
         for id, player in self.world.other_players.items():
             relative_pos = player.pos - self.player.pos + display_centre
             pygame.draw.circle(self.game_display, BLUE, (relative_pos[0], relative_pos[1]), player.radius)
+
+            # Draw arrows.
+
             for arrow in player.arrows:
                 relative_pos = arrow.pos - self.player.pos + display_centre
                 pygame.draw.line(self.game_display, WHITE, (relative_pos[0], relative_pos[1]), 
@@ -75,7 +81,7 @@ class Game:
         self.world.update()
         pygame.display.update()
         clock.tick(FPS)
-        
+
     def run(self) -> None:
         """ Main gameplay loop. """
     
@@ -92,14 +98,12 @@ class Game:
                     break
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    print("Mouse clicked")
                     x, y = pygame.mouse.get_pos()
                     direction = np.array([x, y]) - display_centre
                     direction = direction / np.linalg.norm(direction)
 
                     self.world.add_arrow(self.player.pos[0], self.player.pos[1], direction)
 
-                    print(f"pos = {pygame.mouse.get_pos()}")
 
             # Recieve arrow input controlls and call player to move.
             keys = pygame.key.get_pressed()

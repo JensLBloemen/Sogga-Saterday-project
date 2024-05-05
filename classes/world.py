@@ -102,12 +102,28 @@ class World:
                 # self.player.pos += np.array([x_shift * abs(vel[0]), y_shift * abs(vel[1])])
 
         # Check for collision with arrows.
+        for arrow in self.arrows:
+            if np.linalg.norm(self.player.pos - arrow.pos) < self.player.radius:
+                print("Arrow hit!")
+
         # Check for collision with players.
+        for player in self.other_players.values():
+            if np.linalg.norm(self.player.pos - player.pos) < self.player.radius + player.radius:
+                self.player.undo_movement()
 
     def update(self) -> None:
         """ Update world. """
 
         player = pb_Player()
+
+        to_kill = []
+        for arrow in self.arrows:
+            if not arrow.update():
+                to_kill.append(arrow)
+        
+        for arrow in to_kill:
+            self.arrows.remove(arrow)
+
         player.id = self.player_id
         player.name = f"Player {self.player_id}"
         player.position.x = self.player.pos[0]
