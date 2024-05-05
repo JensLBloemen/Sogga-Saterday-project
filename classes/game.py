@@ -52,6 +52,9 @@ class Game:
         self.mouse_x = 0
         self.mouse_y = 0
 
+        self.arrow = pygame.transform.scale(pygame.image.load(f"assets/arrow.png"),
+                        (self.player.radius*2, self.player.radius*2))
+
     def quit(self) -> None:
         """ Quit Game. """
         pygame.quit()
@@ -63,13 +66,19 @@ class Game:
         # pygame.draw.circle(self.game_display, RED, (display_centre[0], display_centre[1]), self.player.radius)
         [x, y] = np.array([self.x, self.y]) - display_centre
         angle = math.degrees(math.atan2(self.mouse_y - y, self.mouse_x - x))
+        self.player.rotation = angle
         self.curr_animation.draw(self.game_display, display_centre[0], display_centre[1], -angle+90)
 
         # Draw arrows.
         for arrow in self.world.arrows:
             relative_pos = arrow.pos - self.player.pos + display_centre
-            pygame.draw.line(self.game_display, RED, (relative_pos[0], relative_pos[1]),
-                             (relative_pos[0] - arrow.direction[0] * arrow.length, relative_pos[1] - arrow.direction[1]*arrow.length))
+            rotation = math.degrees(math.atan2(arrow.direction[0], arrow.direction[1]))
+            rotated_image = pygame.transform.rotate(self.arrow, rotation)
+            new_rect = rotated_image.get_rect(center=tuple(relative_pos))
+            self.game_display.blit(rotated_image, new_rect.topleft)
+
+            # pygame.draw.line(self.game_display, RED, (relative_pos[0], relative_pos[1]),
+                            #  (relative_pos[0] - arrow.direction[0] * arrow.length, relative_pos[1] - arrow.direction[1]*arrow.length))
 
         # Draw other players and arrows.
         for id, player in self.world.other_players.items():
@@ -77,7 +86,6 @@ class Game:
             pygame.draw.circle(self.game_display, BLUE, (relative_pos[0], relative_pos[1]), player.radius)
 
             # Draw arrows.
-
             for arrow in player.arrows:
                 relative_pos = arrow.pos - self.player.pos + display_centre
                 pygame.draw.line(self.game_display, WHITE, (relative_pos[0], relative_pos[1]), 
