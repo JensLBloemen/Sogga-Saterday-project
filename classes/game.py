@@ -7,8 +7,6 @@ from classes.Arrow import Arrow
 from classes.animation import Animation
 import numpy as np
 import math
-from copy import deepcopy
-
 import os
 
 os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
