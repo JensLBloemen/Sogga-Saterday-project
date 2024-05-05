@@ -77,9 +77,6 @@ class Game:
             new_rect = rotated_image.get_rect(center=tuple(relative_pos))
             self.game_display.blit(rotated_image, new_rect.topleft)
 
-            # pygame.draw.line(self.game_display, RED, (relative_pos[0], relative_pos[1]),
-                            #  (relative_pos[0] - arrow.direction[0] * arrow.length, relative_pos[1] - arrow.direction[1]*arrow.length))
-
         # Draw other players and arrows.
         for id, player in self.world.other_players.items():
             relative_pos = player.pos - self.player.pos + display_centre
@@ -88,8 +85,10 @@ class Game:
             # Draw arrows.
             for arrow in player.arrows:
                 relative_pos = arrow.pos - self.player.pos + display_centre
-                pygame.draw.line(self.game_display, WHITE, (relative_pos[0], relative_pos[1]), 
-                                 (relative_pos[0] - arrow.direction[0]*arrow.length, relative_pos[1] - arrow.direction[1]*arrow.length))
+                rotation = math.degrees(math.atan2(arrow.direction[0], arrow.direction[1]))
+                rotated_image = pygame.transform.rotate(self.arrow, rotation)
+                new_rect = rotated_image.get_rect(center=tuple(relative_pos))
+                self.game_display.blit(rotated_image, new_rect.topleft)
 
         # Draw fixtures.
         for fixture in self.world.fixtures:
