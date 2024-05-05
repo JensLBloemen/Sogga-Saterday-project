@@ -8,12 +8,13 @@ class Arrow:
         self.original_pos = self.pos.copy()
         self.direction = np.array(direction)
         self.speed = 10
+        self.range = 100
 
         self.update_counter = 0
 
     def update(self):
         self.update_counter += 1
         self.pos = self.original_pos + np.array([int(i * self.update_counter) for i in self.direction * self.speed])
-        if self.update_counter > 100:
+        if self.update_counter > self.range:
             return False
         return True 

@@ -94,14 +94,6 @@ class World:
 
             if (left_col or right_col) and (up_col or down_col):
                 self.player.undo_movement()
-
-                # # Kaats terug
-                # x_shift = (fix_lowx - player_highx) * left_col + \
-                #             (fix_highx - player_lowx) * right_col
-                # y_shift = (fix_lowy - player_highy) * up_col + \
-                #             (fix_highy - player_lowy) * down_col
-                            
-                # self.player.pos += np.array([x_shift * abs(vel[0]), y_shift * abs(vel[1])])
         
         for player in self.other_players.values():
             # Check for collision with players.
