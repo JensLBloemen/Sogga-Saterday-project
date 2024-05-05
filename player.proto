@@ -24,6 +24,7 @@ message Players {
 message Arrow {
   Position position = 1;
   Direction direction = 2;
+  int32 speed = 3;
 }
 
 message Arrows {
