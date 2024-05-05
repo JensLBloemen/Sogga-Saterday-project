@@ -2,11 +2,13 @@ import pygame
 
 class Animation:
 
-    def __init__(self, name : str, tpf : int, radius : int) -> None:
+    def __init__(self, name : str, tpf : int, radius : int, nr_frames : int, loop : bool) -> None:
+        self.loop = loop
         self.radius = radius
+        self.nr_frames = nr_frames
         self.frames = [pygame.transform.scale(
                         pygame.image.load(f"assets/{name}{i}.png"),
-                        (self.radius*2, self.radius*2)) for i in range(4)]
+                        (self.radius*2, self.radius*2)) for i in range(self.nr_frames)]
         self.current_frame = 0
         self.last_update = 0
         self.frame_duration = tpf
@@ -19,7 +21,10 @@ class Animation:
 
     def update(self, time):
         if time - self.last_update > self.frame_duration:
-            self.current_frame = (self.current_frame + 1) % len(self.frames)
+            if self.loop:
+                self.current_frame = (self.current_frame + 1) % self.nr_frames
+            else:
+                self.current_frame = min(self.current_frame + 1, self.nr_frames-1)
             self.last_update = time
 
 # test.

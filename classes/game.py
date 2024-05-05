@@ -46,7 +46,8 @@ class Game:
         self.world = World()
         self.player = self.world.add_player(200, 200, name)
 
-        self.run_anim = Animation('run', 7, self.player.radius)
+        self.run_anim = Animation('run', 7, self.player.radius, 4, True)
+        self.shoot_anim = Animation('shoot', 50, self.player.radius, 3, False)
         self.curr_animation = self.run_anim # miss copy ofzo
 
         self.mouse_x = 0
@@ -115,15 +116,18 @@ class Game:
         while True:
             self.x, self.y = pygame.mouse.get_pos()
 
+            # Draw arrow.
             if pygame.mouse.get_pressed()[0]:                
                 power += 1
+                self.curr_animation = self.shoot_anim
+
             # Quit and close game by pressing the X right above..
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.quit()
                     break
 
-                
+                # Shoot arrow.
                 if event.type == pygame.MOUSEBUTTONUP:
                     direction = np.array([self.x, self.y]) - display_centre
                     direction = direction / np.linalg.norm(direction)
@@ -135,6 +139,9 @@ class Game:
     
                     print("Released mouse button. with speed = ", speed)
                     power = 0
+                    self.shoot_anim.current_frame = 0
+                    self.shoot_anim.last_update = time
+                    self.curr_animation = self.run_anim
 
 
             # Recieve arrow input controlls and call player to move.
