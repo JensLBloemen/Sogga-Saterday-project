@@ -6,6 +6,7 @@ from classes.world import World
 from classes.Arrow import Arrow
 from classes.animation import Animation
 import numpy as np
+import math
 
 import os
 
@@ -48,6 +49,9 @@ class Game:
         self.run_anim = Animation('run', 7, self.player.radius)
         self.curr_animation = self.run_anim # miss copy ofzo
 
+        self.mouse_x = 0
+        self.mouse_y = 0
+
     def quit(self) -> None:
         """ Quit Game. """
         pygame.quit()
@@ -57,7 +61,9 @@ class Game:
 
         # Draw Player object in centre of frame.
         # pygame.draw.circle(self.game_display, RED, (display_centre[0], display_centre[1]), self.player.radius)
-        self.curr_animation.draw(self.game_display, display_centre[0], display_centre[1])
+        [x, y] = np.array([self.x, self.y]) - display_centre
+        angle = math.degrees(math.atan2(self.mouse_y - y, self.mouse_x - x))
+        self.curr_animation.draw(self.game_display, display_centre[0], display_centre[1], -angle+90)
 
         # Draw arrows.
         for arrow in self.world.arrows:
@@ -66,7 +72,6 @@ class Game:
                              (relative_pos[0] - arrow.direction[0] * arrow.length, relative_pos[1] - arrow.direction[1]*arrow.length))
 
         # Draw other players and arrows.
-
         for id, player in self.world.other_players.items():
             relative_pos = player.pos - self.player.pos + display_centre
             pygame.draw.circle(self.game_display, BLUE, (relative_pos[0], relative_pos[1]), player.radius)
@@ -108,6 +113,7 @@ class Game:
 
         time = 0
         while True:
+            self.x, self.y = pygame.mouse.get_pos()
 
             if pygame.mouse.get_pressed()[0]:                
                 power += 1
@@ -119,8 +125,7 @@ class Game:
 
                 
                 if event.type == pygame.MOUSEBUTTONUP:
-                    x, y = pygame.mouse.get_pos()
-                    direction = np.array([x, y]) - display_centre
+                    direction = np.array([self.x, self.y]) - display_centre
                     direction = direction / np.linalg.norm(direction)
 
                     speed = int(max_speed * (2 / (1 + np.exp(-power / 30)) - 1))

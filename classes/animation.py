@@ -11,9 +11,10 @@ class Animation:
         self.last_update = 0
         self.frame_duration = tpf
 
-    def draw(self, screen, x, y):
+    def draw(self, screen, x, y, rot):
         # pygame.draw.circle(screen, (255,0,0), (x,y), self.radius)
-        screen.blit(self.frames[self.current_frame], (x - self.radius, y-self.radius))
+        screen.blit(pygame.transform.rotate(self.frames[self.current_frame], rot), 
+                    (x - self.radius, y-self.radius))
         
 
     def update(self, time):
