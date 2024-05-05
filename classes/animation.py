@@ -5,6 +5,7 @@ class Animation:
     def __init__(self, name : str, tpf : int, radius : int, nr_frames : int, loop : bool) -> None:
         self.loop = loop
         self.radius = radius
+        self.name = name
         self.nr_frames = nr_frames
         self.frames = [pygame.transform.scale(
                         pygame.image.load(f"assets/{name}{i}.png"),

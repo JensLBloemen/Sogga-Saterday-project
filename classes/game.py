@@ -5,6 +5,8 @@
 from classes.world import World
 from classes.Arrow import Arrow
 from classes.animation import Animation
+from data.animation_list import animation_list
+
 import numpy as np
 import math
 import os
@@ -80,7 +82,12 @@ class Game:
         # Draw other players and arrows.
         for id, player in self.world.other_players.items():
             relative_pos = player.pos - self.player.pos + display_centre
-            pygame.draw.circle(self.game_display, BLUE, (relative_pos[0], relative_pos[1]), player.radius)
+
+            rotated_image = pygame.transform.rotate(animation_list[player.anim_id], player.rotation)
+            new_rect = rotated_image.get_rect(center=(relative_pos[0], relative_pos[1]))
+            self.game_display.blit(rotated_image, new_rect.topleft)
+
+            # pygame.draw.circle(self.game_display, BLUE, (relative_pos[0], relative_pos[1]), player.radius)
 
             # Draw arrows.
             for arrow in player.arrows:
@@ -105,6 +112,8 @@ class Game:
         self.draw()
         self.world.update()
         self.curr_animation.update(time)
+        self.player.anim_id = self.curr_animation.current_frame + ["hurt", "run",  "shoot" , "walk"].index(self.curr_animation.name) * 4
+
         pygame.display.update()
         clock.tick(FPS)
 

@@ -2,13 +2,14 @@ from classes.player import Player
 from classes.fixture import Fixture
 from classes.Arrow import Arrow
 
+from data.animation_list import animation_list
 
 import socket
 import threading
 import numpy as np
 
 from player_pb2 import Player as pb_Player  # Import your generated protobuf classes
-from player_pb2 import Arrow as pb_Arrow  # Import your generated protobuf classes
+from player_pb2 import Arrow as pb_Arrow    # Import your generated protobuf classes
 from player_pb2 import Arrows as pb_Arrows  # Import your generated protobuf classes
 
 # Wereld gaat conact hebben met server. Stuurt player info en krijgt other player info
@@ -27,8 +28,8 @@ class World:
 
             # send_messages(sock, server_address)   
 
-        self.width = 2000
-        self.height = 2000
+        self.width = 2048
+        self.height = 2048
         self.player = None
         self.other_players = {}
         self.fixtures = [] # this stays 1 list with diff types of fixtures.
@@ -49,6 +50,9 @@ class World:
                 print(f"New player added!:{player.name} id:{player.id}")
                 
             other_player = Player(player.position.x, player.position.y, player.name)
+            other_player.anim_id = player.anim_id
+            other_player.rotation = player.rotation
+            
             other_player.arrows = [Arrow(arr.position.x, arr.position.y, (arr.direction.x, arr.direction.y), arr.speed) for arr in player.arrows.arrows]
             self.other_players[player.id] = other_player
 
@@ -123,6 +127,8 @@ class World:
         player.name = self.player.name
         player.position.x = self.player.pos[0]
         player.position.y = self.player.pos[1]
+        player.rotation = self.player.rotation
+        player.anim_id = self.player.anim_id
 
 
         arrows = pb_Arrows()

@@ -1,15 +1,18 @@
 import numpy as np
 
 class Player:
-
+    radius = 45
     def __init__(self, x, y, name) -> None:
         self.name = name
         self.id = string_to_int(name)
         self.pos = np.array([x, y])
         self.speed = 5
-        self.radius = 45
+        
         self.last_pos = np.array([x, y])
         self.hp = 100
+        self.rotation = 0
+        self.curr_animation = None
+        self.anim_id = 0 
 
     def move(self, direction : np.array) -> None:
         self.last_pos = self.pos.copy()

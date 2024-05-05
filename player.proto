@@ -5,6 +5,8 @@ message Player {
   string name = 2;
   Position position = 3;
   Arrows arrows = 4;
+  float rotation = 5;
+  int32 anim_id = 6;
 }
 
 message Position {
