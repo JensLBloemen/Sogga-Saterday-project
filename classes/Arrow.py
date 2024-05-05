@@ -4,7 +4,7 @@ import numpy as np
 class Arrow:
     def __init__(self, x, y, direction):
         self.length = 100
-        self.pos = np.array([x, y]) + direction * self.length
+        self.pos = np.array([x, y]) + np.array(direction) * self.length
         self.original_pos = self.pos.copy()
         self.direction = np.array(direction)
         self.speed = 10
