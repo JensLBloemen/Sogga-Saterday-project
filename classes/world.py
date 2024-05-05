@@ -17,7 +17,6 @@ from player_pb2 import Arrows as pb_Arrows  # Import your generated protobuf cla
 class World:
 
     def __init__(self) -> None:
-        self.player_id = random.randint(1, 500)
         self.server_address = ("192.168.8.115", 5555)
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
@@ -45,16 +44,16 @@ class World:
             player = pb_Player()
             player.ParseFromString(data)
             if player.id not in self.other_players:
-                print(f"New player added!: {player.id}")
+                print(f"New player added!:{player.name} id:{player.id}")
                 
-            other_player = Player(player.position.x, player.position.y)
+            other_player = Player(player.position.x, player.position.y, player.name)
             other_player.arrows = [Arrow(arr.position.x, arr.position.y, (arr.direction.x, arr.direction.y)) for arr in player.arrows.arrows]
             self.other_players[player.id] = other_player
 
 
-    def add_player(self, x : int, y : int) -> Player:
+    def add_player(self, x : int, y : int, name : str) -> Player:
         """ Add a player to the game and return the player to creator. """
-        new_player = Player(x, y)
+        new_player = Player(x, y, name)
         self.player = new_player
         return self.player
 
@@ -118,8 +117,8 @@ class World:
         for arrow in to_kill:
             self.arrows.remove(arrow)
 
-        player.id = self.player_id
-        player.name = f"Player {self.player_id}"
+        player.id = self.player.id
+        player.name = self.player.name
         player.position.x = self.player.pos[0]
         player.position.y = self.player.pos[1]
 

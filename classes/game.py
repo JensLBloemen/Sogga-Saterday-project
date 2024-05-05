@@ -5,7 +5,13 @@
 from classes.world import World
 from classes.Arrow import Arrow
 import numpy as np
+
+import os
+
+os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
+
 import pygame
+
 pygame.init()
 
 # --- Colors ------------------------------------------------------------------
@@ -34,9 +40,9 @@ clock = pygame.time.Clock()
 
 class Game:
 
-    def __init__(self) -> None:
+    def __init__(self, name) -> None:
         self.world = World()
-        self.player = self.world.add_player(200, 200)
+        self.player = self.world.add_player(200, 200, name)
 
     def quit(self) -> None:
         """ Quit Game. """
