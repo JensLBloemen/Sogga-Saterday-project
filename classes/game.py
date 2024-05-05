@@ -46,11 +46,12 @@ class Game:
     def draw(self) -> None:
 
         # Draw Player object in centre of frame.
-        pos = display_centre
-        pygame.draw.circle(self.game_display, RED, (pos[0], pos[1]), self.player.radius)
+        pygame.draw.circle(self.game_display, RED, (display_centre[0], display_centre[1]), self.player.radius)
 
         for arrow in self.world.arrows:
-            pygame.draw.line(self.game_display, RED, (pos[0], pos[1]), (pos[0] + arrow.direction[0] * 100, pos[1] + arrow.direction[1]*100))
+            relative_pos = arrow.pos - self.player.pos + display_centre
+            pygame.draw.line(self.game_display, RED, (relative_pos[0], relative_pos[1]),
+                             (relative_pos[0] + arrow.direction[0] * 100, relative_pos[1] + arrow.direction[1]*100))
 
         for id, player in self.world.other_players.items():
             relative_pos = player.pos - self.player.pos + display_centre
@@ -58,7 +59,7 @@ class Game:
             for arrow in player.arrows:
                 relative_pos = arrow.pos - self.player.pos + display_centre
                 pygame.draw.line(self.game_display, WHITE, (relative_pos[0], relative_pos[1]), 
-                                 (relative_pos[0] + arrow.direction[0], relative_pos[1] + arrow.direction[1]))
+                                 (relative_pos[0] + arrow.direction[0]*100, relative_pos[1] + arrow.direction[1]*100))
 
         # Draw fixtures.
         for fixture in self.world.fixtures:
@@ -96,8 +97,7 @@ class Game:
                     direction = np.array([x, y]) - display_centre
                     direction = direction / np.linalg.norm(direction)
 
-                    arrow = Arrow(display_centre[0], display_centre[1], direction)
-                    self.world.add_arrow(arrow)
+                    self.world.add_arrow(self.player.pos[0], self.player.pos[1], direction)
 
                     print(f"pos = {pygame.mouse.get_pos()}")
 

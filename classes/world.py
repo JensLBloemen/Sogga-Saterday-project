@@ -17,7 +17,7 @@ from player_pb2 import Arrows as pb_Arrows  # Import your generated protobuf cla
 class World:
 
     def __init__(self) -> None:
-        self.player_id = random.randint(1, 50)
+        self.player_id = random.randint(1, 500)
         self.server_address = ("192.168.8.115", 5555)
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
@@ -50,7 +50,7 @@ class World:
                 print(f"New player added!: {player.id}")
                 
             other_player = Player(player.position.x, player.position.y)
-            other_player.arrows = [Arrow(arr.position.x, arr.position.y, arr.direction.x, arr.direction.y) for arr in player.arrows.arrows]
+            other_player.arrows = [Arrow(arr.position.x, arr.position.y, (arr.direction.x, arr.direction.y)) for arr in player.arrows.arrows]
             self.other_players[player.id] = other_player
 
 
@@ -64,8 +64,8 @@ class World:
     def add_fixture(self, x : int, y : int, width : int, height : int) -> None:
         self.fixtures.append(Fixture(x, y, width, height))
 
-    def add_arrow(self, arrow):
-        self.arrows.append(arrow)
+    def add_arrow(self, x, y, direction):
+        self.arrows.append(Arrow(x, y, direction))
 
     def move_player(self, vel):
         self.player.move(vel)
@@ -93,17 +93,15 @@ class World:
             down_col = fix_lowy < player_lowy and player_lowy < fix_highy
 
             if (left_col or right_col) and (up_col or down_col):
-                x_shift = (player_highx - fix_lowx) * left_col + \
-                            (fix_highx - player_lowx) * right_col
-                y_shift = (player_highy - fix_lowy) * up_col + \
-                            (fix_highy - player_lowy) * down_col
+                self.player.undo_movement()
 
-                self.player.pos += np.array([x_shift, y_shift])
-                
-            
-
-                # Check for collision with arrows.
-                # Check for collision with players.
+                # # Kaats terug
+                # x_shift = (fix_lowx - player_highx) * left_col + \
+                #             (fix_highx - player_lowx) * right_col
+                # y_shift = (fix_lowy - player_highy) * up_col + \
+                #             (fix_highy - player_lowy) * down_col
+                            
+                # self.player.pos += np.array([x_shift * abs(vel[0]), y_shift * abs(vel[1])])
 
     def update(self) -> None:
         """ Update world. """

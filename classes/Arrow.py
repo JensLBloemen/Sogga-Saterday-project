@@ -6,5 +6,5 @@ class Arrow:
         self.x = x
         self.y = y
         self.pos = np.array([x, y])
-        self.direction = direction
+        self.direction = np.array(direction)
         self.speed = 10
