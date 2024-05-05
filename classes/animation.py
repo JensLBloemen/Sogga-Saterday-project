@@ -5,7 +5,7 @@ class Animation:
     def __init__(self, name : str, tpf : int, radius : int) -> None:
         self.radius = radius
         self.frames = [pygame.transform.scale(
-                        pygame.image.load(f"../assets/{name}{i}.png"),
+                        pygame.image.load(f"/home/spikes/Documents/Persoonlijk/projecten/sogga/Sogga-Saterday-project/assets/{name}{i}.png"),
                         (self.radius*2, self.radius*2)) for i in range(4)]
         self.current_frame = 0
         self.last_update = 0
@@ -35,7 +35,7 @@ if __name__ == "__main__":
     pygame.display.set_caption('Animation Example')
 
     # Create an Animation instance
-    animation = Animation('shoot', 40, 60) 
+    animation = Animation('run', 7, 60) 
 
     # Set up the game loop
     clock = pygame.time.Clock()

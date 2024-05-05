@@ -7,8 +7,9 @@ class Player:
         self.id = string_to_int(name)
         self.pos = np.array([x, y])
         self.speed = 5
-        self.radius = 30
+        self.radius = 45
         self.last_pos = np.array([x, y])
+        self.hp = 100
 
     def move(self, direction : np.array) -> None:
         self.last_pos = self.pos.copy()

@@ -4,6 +4,7 @@
 
 from classes.world import World
 from classes.Arrow import Arrow
+from classes.animation import Animation
 import numpy as np
 
 import os
@@ -44,6 +45,9 @@ class Game:
         self.world = World()
         self.player = self.world.add_player(200, 200, name)
 
+        self.run_anim = Animation('run', 7, self.player.radius)
+        self.curr_animation = self.run_anim # miss copy ofzo
+
     def quit(self) -> None:
         """ Quit Game. """
         pygame.quit()
@@ -52,8 +56,9 @@ class Game:
     def draw(self) -> None:
 
         # Draw Player object in centre of frame.
-        pygame.draw.circle(self.game_display, RED, (display_centre[0], display_centre[1]), self.player.radius)
-        
+        # pygame.draw.circle(self.game_display, RED, (display_centre[0], display_centre[1]), self.player.radius)
+        self.curr_animation.draw(self.game_display, display_centre[0], display_centre[1])
+
         # Draw arrows.
         for arrow in self.world.arrows:
             relative_pos = arrow.pos - self.player.pos + display_centre
@@ -79,12 +84,15 @@ class Game:
             fixt_rect = (relative_pos[0], relative_pos[1], 
                          fixture.width, fixture.height)
             pygame.draw.rect(self.game_display, BLUE, fixt_rect)
+        
 
-    def update(self) -> None:
+
+    def update(self, time) -> None:
         """ Draw new frame. """
         self.game_display.fill(BACKGROUND_COLOR)
         self.draw()
         self.world.update()
+        self.curr_animation.update(time)
         pygame.display.update()
         clock.tick(FPS)
 
@@ -98,6 +106,7 @@ class Game:
         power = 0
         max_speed = 25
 
+        time = 0
         while True:
 
             if pygame.mouse.get_pressed()[0]:                
@@ -129,7 +138,9 @@ class Game:
             y_vel = int(keys[pygame.K_s]) - int(keys[pygame.K_w])
             self.world.move_player(np.array([x_vel, y_vel]))
 
-            self.update()
+            self.update(time)
+            time +=1
+
 
 
         
