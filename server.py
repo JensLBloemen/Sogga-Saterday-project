@@ -3,7 +3,7 @@ def main():
     # Create a UDP socket
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     # Bind the socket to an IP address and port
-    server_address = ("192.168.8.115", 5555)
+    server_address = ("192.168.178.36", 5555)
     sock.bind(server_address)
 
     clients = set()  # Keep track of client addresses

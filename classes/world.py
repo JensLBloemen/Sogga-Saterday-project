@@ -16,7 +16,10 @@ from player_pb2 import Arrows as pb_Arrows  # Import your generated protobuf cla
 class World:
 
     def __init__(self) -> None:
-        self.server_address = ("192.168.8.115", 5555)
+
+        self.can_reach_server = True
+
+        self.server_address = ("192.168.178.36", 5555)
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
         receiver_thread = threading.Thread(target=self.listen_for_messages, args=(self.sock,))
@@ -137,6 +140,10 @@ class World:
 
 
         data = player.SerializeToString()
-        self.sock.sendto(data, self.server_address)
-
+        if self.can_reach_server:
+            try:
+                self.sock.sendto(data, self.server_address)
+            except OSError:
+                print("Can't reach server bozo!\nTurn on your wifi")
+                self.can_reach_server = False
 
