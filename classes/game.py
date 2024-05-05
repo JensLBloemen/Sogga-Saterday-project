@@ -135,9 +135,9 @@ class Game:
                     direction = np.array([self.x, self.y]) - display_centre
                     direction = direction / np.linalg.norm(direction)
 
-                    speed = int(max_speed * (2 / (1 + np.exp(-power / 30)) - 1))
+                    speed = min(power/4, 25)
 
-                    if speed > 5:
+                    if power > 50:
                         self.world.add_arrow(self.player.pos[0], self.player.pos[1], direction, speed)
     
                     print("Released mouse button. with speed = ", speed)
