@@ -72,7 +72,7 @@ class World:
         if self.player.pos[0] < 0: self.player.pos[0] = 0
         if self.player.pos[1] < 0: self.player.pos[1] = 0
         if self.player.pos[0] > self.width: self.player.pos[0] = self.width
-        if self.player.pos[1] > self.height: self.player.pos[0] = self.height
+        if self.player.pos[1] > self.height: self.player.pos[1] = self.height
 
         # Check of collision with fixtures.
         player_lowx = self.player.pos[0] - self.player.radius
