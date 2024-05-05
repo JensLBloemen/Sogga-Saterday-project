@@ -63,8 +63,8 @@ class World:
         self.fixtures.append(Fixture(x, y, width, height))
 
     def add_arrow(self, x, y, direction):
-        x += direction[0] * self.player.radius*2
-        y += direction[1] * self.player.radius*2
+        x += direction[0] * Arrow.length
+        y += direction[1] * Arrow.length
         self.arrows.append(Arrow(x, y, direction))
 
     def move_player(self, vel):

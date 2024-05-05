@@ -2,8 +2,8 @@ import numpy as np
 
 
 class Arrow:
+    length = 100
     def __init__(self, x, y, direction):
-        self.length = 100
         self.pos = np.array([x, y])
         self.original_pos = self.pos.copy()
         self.direction = np.array(direction)
