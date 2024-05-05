@@ -83,7 +83,7 @@ class Game:
         for id, player in self.world.other_players.items():
             relative_pos = player.pos - self.player.pos + display_centre
 
-            rotated_image = pygame.transform.rotate(animation_list[player.anim_id], player.rotation)
+            rotated_image = pygame.transform.rotate(animation_list[player.anim_id], -player.rotation+90)
             new_rect = rotated_image.get_rect(center=(relative_pos[0], relative_pos[1]))
             self.game_display.blit(rotated_image, new_rect.topleft)
 
