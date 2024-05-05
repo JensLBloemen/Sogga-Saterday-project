@@ -95,20 +95,32 @@ class Game:
         self.game_display = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 
         # Loop
+        power = 0
+        max_speed = 25
+
         while True:
 
+            if pygame.mouse.get_pressed()[0]:                
+                power += 1
             # Quit and close game by pressing the X right above..
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.quit()
                     break
 
-                if event.type == pygame.MOUSEBUTTONDOWN:
+                
+                if event.type == pygame.MOUSEBUTTONUP:
                     x, y = pygame.mouse.get_pos()
                     direction = np.array([x, y]) - display_centre
                     direction = direction / np.linalg.norm(direction)
 
-                    self.world.add_arrow(self.player.pos[0], self.player.pos[1], direction)
+                    speed = int(max_speed * (2 / (1 + np.exp(-power / 30)) - 1))
+
+                    if speed > 5:
+                        self.world.add_arrow(self.player.pos[0], self.player.pos[1], direction, speed)
+    
+                    print("Released mouse button. with speed = ", speed)
+                    power = 0
 
 
             # Recieve arrow input controlls and call player to move.

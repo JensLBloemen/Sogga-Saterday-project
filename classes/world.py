@@ -5,7 +5,6 @@ from classes.Arrow import Arrow
 
 import socket
 import threading
-import random
 import numpy as np
 
 from player_pb2 import Player as pb_Player  # Import your generated protobuf classes
@@ -47,7 +46,7 @@ class World:
                 print(f"New player added!:{player.name} id:{player.id}")
                 
             other_player = Player(player.position.x, player.position.y, player.name)
-            other_player.arrows = [Arrow(arr.position.x, arr.position.y, (arr.direction.x, arr.direction.y)) for arr in player.arrows.arrows]
+            other_player.arrows = [Arrow(arr.position.x, arr.position.y, (arr.direction.x, arr.direction.y), arr.speed) for arr in player.arrows.arrows]
             self.other_players[player.id] = other_player
 
 
@@ -61,10 +60,10 @@ class World:
     def add_fixture(self, x : int, y : int, width : int, height : int) -> None:
         self.fixtures.append(Fixture(x, y, width, height))
 
-    def add_arrow(self, x, y, direction):
+    def add_arrow(self, x, y, direction, speed):
         x += direction[0] * Arrow.length
         y += direction[1] * Arrow.length
-        self.arrows.append(Arrow(x, y, direction))
+        self.arrows.append(Arrow(x, y, direction, speed))
 
     def move_player(self, vel):
         self.player.move(vel)
@@ -126,6 +125,7 @@ class World:
         arrows = pb_Arrows()
         for selfarrow in self.arrows:
             arrow = pb_Arrow()
+            arrow.speed = int(selfarrow.speed)
             arrow.position.x = int(selfarrow.pos[0])
             arrow.position.y = int(selfarrow.pos[1])
             arrow.direction.x = selfarrow.direction[0]

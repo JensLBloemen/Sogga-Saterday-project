@@ -10,6 +10,7 @@ def main():
 
     
     try:
+        print("Listining for clients...")
         while True:
             data, address = sock.recvfrom(4096)
 
