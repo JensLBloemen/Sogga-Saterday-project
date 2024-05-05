@@ -63,6 +63,8 @@ class World:
         self.fixtures.append(Fixture(x, y, width, height))
 
     def add_arrow(self, x, y, direction):
+        x += direction[0] * self.player.radius*2
+        y += direction[1] * self.player.radius*2
         self.arrows.append(Arrow(x, y, direction))
 
     def move_player(self, vel):
@@ -100,16 +102,16 @@ class World:
                 #             (fix_highy - player_lowy) * down_col
                             
                 # self.player.pos += np.array([x_shift * abs(vel[0]), y_shift * abs(vel[1])])
-
-        # Check for collision with arrows.
-        for arrow in self.arrows:
-            if np.linalg.norm(self.player.pos - arrow.pos) < self.player.radius:
-                print("Arrow hit!")
-
-        # Check for collision with players.
+        
         for player in self.other_players.values():
+            # Check for collision with players.
             if np.linalg.norm(self.player.pos - player.pos) < self.player.radius + player.radius:
                 self.player.undo_movement()
+
+            # Check for collision with arrows.
+            for arrow in player.arrows:
+                if np.linalg.norm(self.player.pos - arrow.pos) < self.player.radius:
+                    print("Arrow hit!")
 
     def update(self) -> None:
         """ Update world. """

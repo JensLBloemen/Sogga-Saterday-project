@@ -65,7 +65,7 @@ class Game:
             for arrow in player.arrows:
                 relative_pos = arrow.pos - self.player.pos + display_centre
                 pygame.draw.line(self.game_display, WHITE, (relative_pos[0], relative_pos[1]), 
-                                 (relative_pos[0] - arrow.direction[0]*100, relative_pos[1] - arrow.direction[1]*100))
+                                 (relative_pos[0] - arrow.direction[0]*arrow.length, relative_pos[1] - arrow.direction[1]*arrow.length))
 
         # Draw fixtures.
         for fixture in self.world.fixtures:
