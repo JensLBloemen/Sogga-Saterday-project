@@ -108,7 +108,9 @@ class World:
             # Check for collision with arrows.
             for arrow in player.arrows:
                 if np.linalg.norm(self.player.pos - arrow.pos) < self.player.radius:
+                    self.player.hurt(arrow)
                     print("Arrow hit!")
+
 
     def update(self) -> None:
         """ Update world. """

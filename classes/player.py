@@ -12,7 +12,8 @@ class Player:
         self.hp = 100
         self.rotation = 0
         self.curr_animation = None
-        self.anim_id = 0 
+        self.anim_id = 0
+        self.arrows_hit = set()
 
     def move(self, direction : np.array) -> None:
         self.last_pos = self.pos.copy()
@@ -20,6 +21,12 @@ class Player:
 
     def undo_movement(self):
         self.pos = self.last_pos
+
+    def hurt(self, arrow):
+        if arrow not in self.arrows_hit:
+            self.arrows_hit.add(arrow)
+            self.hp -= arrow.speed // 2
+
 
 
 def string_to_int(input_string):

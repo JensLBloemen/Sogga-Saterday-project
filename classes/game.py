@@ -27,7 +27,7 @@ WHITE =         (255,   255,    255)
 # --- Settings ----------------------------------------------------------------
 
 GAME_NAME = 'Game'
-FPS = 60
+FPS = 60        # Frames per second has a maximum of 60
 WINDOW_WIDTH = 1700
 WINDOW_HEIGHT = 900
 
@@ -50,6 +50,8 @@ class Game:
         self.run_anim = Animation('run', 7, self.player.radius, 4, True)
         self.shoot_anim = Animation('shoot', 50, self.player.radius, 3, False)
         self.curr_animation = self.run_anim # miss copy ofzo
+
+        self.FPS = FPS
 
         self.mouse_x = 0
         self.mouse_y = 0
@@ -133,7 +135,7 @@ class Game:
 
             # Draw arrow.
             if pygame.mouse.get_pressed()[0]:                
-                power += 1
+                power += int(60 / FPS)
                 self.curr_animation = self.shoot_anim
 
             # Quit and close game by pressing the X right above..
@@ -165,8 +167,8 @@ class Game:
 
             # Recieve arrow input controlls and call player to move.
             keys = pygame.key.get_pressed()
-            x_vel = int(keys[pygame.K_d]) - int(keys[pygame.K_a])
-            y_vel = int(keys[pygame.K_s]) - int(keys[pygame.K_w])
+            x_vel = int((keys[pygame.K_d] - int(keys[pygame.K_a])) * 60 / FPS)
+            y_vel = int((keys[pygame.K_s] - int(keys[pygame.K_w])) * 60 / FPS)
             self.world.move_player(np.array([x_vel, y_vel]))
 
             self.update(time)
